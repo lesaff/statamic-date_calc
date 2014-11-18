@@ -9,68 +9,81 @@
  * @link       https://github.com/lesaff/statamic-date_calc
  * @license    http://opensource.org/licenses/MIT
 */
-use \Carbon\Carbon;
 
 /*
- * Usage {{ date_calc method="subYears" value="5" }}
- * Where method is one of the following
- *     addYears
- *     addYear
- *     subYears
- *     subYear
- *     addMonths
- *     addMonth
- *     subMonths
- *     subMonth
- *     addWeeks
- *     addWeek
- *     subWeeks
- *     subWeek
- *     addDays
- *     addDay
- *     subDays
- *     subDay
- *     addWeekdays
- *     addWeekday
- *     subWeekdays
- *     subWeekday
- *     addHours
- *     addHour
- *     subHours
- *     subHour
- *     addMinutes
- *     addMinute
- *     subMinutes
- *     subMinute
- *     addSeconds
- *     addSecond
- *     subSeconds
- *
- * And value is the offset number
- *
- * This add-on also will take any standard Statamic modifiers
+ Usage {{ date_calc method="subYears" value="5" }}
+
+ If no parameters are set, it will just return the current date and time.
+
+ Available parameters:
+ 
+ start_year
+ Accepts standard PHP date/time format (http://php.net/manual/en/function.date.php).
+ Defaults to current date/time in standard PHP format (Y-m-d H:i:s)
+
+ method
+ The following calculation type are available
+     addYears
+     addYear
+     subYears
+     subYear
+     addMonths
+     addMonth
+     subMonths
+     subMonth
+     addWeeks
+     addWeek
+     subWeeks
+     subWeek
+     addDays
+     addDay
+     subDays
+     subDay
+     addWeekdays
+     addWeekday
+     subWeekdays
+     subWeekday
+     addHours
+     addHour
+     subHours
+     subHour
+     addMinutes
+     addMinute
+     subMinutes
+     subMinute
+     addSeconds
+     addSecond
+     subSeconds
+ 
+ value
+ Arbitrary value based on the method. It could be 6 weeks, 6 days, 6 hours, 6 minutes etc.
+
+ format
+ Accepts standard PHP date/time format (http://php.net/manual/en/function.date.php).
+ Defaults to current date/time in standard PHP format (Y-m-d H:i:s)
+ 
+ This add-on also will take any standard Statamic modifiers
  *
  */     
 
+use \Carbon\Carbon;
+
 class Plugin_date_calc extends Plugin
 {
-   var $meta = array(
-      'name'       => 'Date Calculation',
-      'version'    => '1.0.0',
-      'author'     => 'Rudy Affandi',
-      'author_url' => 'https://github.com/lesaff/'
-   );
+    var $meta = array(
+        'name'       => 'Date Calculation',
+        'version'    => '1.1.0',
+        'author'     => 'Rudy Affandi',
+        'author_url' => 'https://github.com/lesaff/'
+    );
 
     public function index()
     {
-        $calc_method  = $this->fetchParam("method");
-        $calc_value   = $this->fetchParam("value");
-        $format       = $this->fetchParam('format', 'Y-m-d', null, FALSE, FALSE);
+        $start_date   = $this->fetchParam("start_date", Carbon::now(), NULL, FALSE, FALSE);
+        $calc_method  = $this->fetchParam("method", "now", NULL, FALSE, FALSE);
+        $calc_value   = $this->fetchParam("value", NULL, NULL, FALSE, FALSE);
+        $format       = $this->fetchParam("format", "Y-m-d H:i:s", NULL, FALSE, FALSE);
 
-        if (isset($calc_method) && isset($calc_value)){
-            $current_date  = Carbon::now()->$calc_method($calc_value)->format($format);
-        }
-
-        return $current_date;
+        return $start_date->$calc_method($calc_value)->format($format);
     }
 }
