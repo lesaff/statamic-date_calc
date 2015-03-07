@@ -8,6 +8,7 @@
  * @copyright  2014
  * @link       https://github.com/lesaff/statamic-date_calc
  * @license    http://opensource.org/licenses/MIT
+ * @version    1.2.0
 */
 
 /*
@@ -17,7 +18,7 @@
 
  Available parameters:
  
- start_year
+ start_date
  Accepts standard PHP date/time format (http://php.net/manual/en/function.date.php).
  Defaults to current date/time in standard PHP format (Y-m-d H:i:s)
 
@@ -72,7 +73,7 @@ class Plugin_date_calc extends Plugin
 {
     var $meta = array(
         'name'       => 'Date Calculation',
-        'version'    => '1.1.0',
+        'version'    => '1.2.0',
         'author'     => 'Rudy Affandi',
         'author_url' => 'https://github.com/lesaff/'
     );
@@ -84,6 +85,8 @@ class Plugin_date_calc extends Plugin
         $calc_value   = $this->fetchParam("value", NULL, NULL, FALSE, FALSE);
         $format       = $this->fetchParam("format", "Y-m-d H:i:s", NULL, FALSE, FALSE);
 
-        return $start_date->$calc_method($calc_value)->format($format);
+        $sanitized_date = new Carbon($start_date);
+
+        return $sanitized_date->$calc_method($calc_value)->format($format);
     }
 }
