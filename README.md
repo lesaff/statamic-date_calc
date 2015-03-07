@@ -3,6 +3,8 @@ By Rudy Affandi (2014)
 Version 1.1.0
 
 ## Changelog
+1.2.0 - Added date input sanitizer, per https://github.com/lesaff/statamic-date_calc/issues/1
+
 1.1.0 - Added start date, added default value to some parameters. Updated documentation
 
 1.0.0 - Initial release
@@ -19,7 +21,7 @@ Copy the 'date_calc' folder to the '_add-ons' folder in your Statamic website.
 
  __Available parameters:__
  
- *start_year*
+ *start_date*
 
  Accepts standard PHP date/time format (http://php.net/manual/en/function.date.php).
  Defaults to current date/time in standard PHP format (Y-m-d H:i:s)
